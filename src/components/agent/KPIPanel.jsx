@@ -8,15 +8,20 @@ function StatCard({ icon: Icon, label, value, helpText, tone = 'navy' }) {
     teal: 'bg-teal-text text-white',
     slate: 'bg-white text-navy-950 ring-1 ring-slate-200',
   }
+  const helpTones = {
+    navy: 'text-white/80',
+    teal: 'text-teal-50',
+    slate: 'text-slate-500',
+  }
   return (
-    <div className={`rounded-xl p-4 shadow-sm ${tones[tone]}`}>
-      <div className="flex items-center gap-2 text-sm font-medium opacity-90">
+    <dl className={`rounded-xl p-4 shadow-sm ${tones[tone]}`}>
+      <dt className="flex items-center gap-2 text-sm font-medium opacity-90">
         <Icon width={18} height={18} />
         {label}
-      </div>
-      <p className="mt-2 text-3xl font-extrabold">{value}</p>
-      {helpText && <p className="mt-1 text-xs opacity-80">{helpText}</p>}
-    </div>
+      </dt>
+      <dd className="mt-2 text-3xl font-extrabold">{value}</dd>
+      {helpText && <dd className={`mt-1 text-xs ${helpTones[tone]}`}>{helpText}</dd>}
+    </dl>
   )
 }
 
@@ -65,7 +70,7 @@ export function KPIPanel({ solicitudes }) {
                 </div>
                 <div aria-hidden="true" className="mt-1 h-2 rounded-full bg-slate-100">
                   <div
-                    className="h-2 rounded-full bg-teal-brand"
+                    className="h-2 rounded-full bg-teal-text"
                     style={{ width: `${(count / maxCategoria) * 100}%` }}
                   />
                 </div>

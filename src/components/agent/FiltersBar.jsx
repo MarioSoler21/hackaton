@@ -1,8 +1,16 @@
 import { CATEGORIAS, ESTADOS, PRIORIDADES } from '../../data/constants'
 
 export function FiltersBar({ filtros, onChange }) {
+  const hayFiltrosActivos =
+    Boolean(filtros.busqueda) || filtros.estado !== 'todos' || filtros.categoria !== 'todos' || filtros.prioridad !== 'todos'
+
   function set(campo, valor) {
     onChange({ ...filtros, [campo]: valor })
+  }
+
+  function limpiarFiltros() {
+    onChange({ busqueda: '', estado: 'todos', categoria: 'todos', prioridad: 'todos' })
+    document.getElementById('filtro-busqueda')?.focus()
   }
 
   return (
@@ -80,15 +88,14 @@ export function FiltersBar({ filtros, onChange }) {
         </select>
       </div>
 
-      {(filtros.busqueda || filtros.estado !== 'todos' || filtros.categoria !== 'todos' || filtros.prioridad !== 'todos') && (
-        <button
-          type="button"
-          onClick={() => onChange({ busqueda: '', estado: 'todos', categoria: 'todos', prioridad: 'todos' })}
-          className="rounded-md px-2.5 py-1.5 text-sm font-medium text-teal-text hover:text-teal-text-hover"
-        >
-          Limpiar filtros
-        </button>
-      )}
+      <button
+        type="button"
+        disabled={!hayFiltrosActivos}
+        onClick={limpiarFiltros}
+        className="rounded-md px-2.5 py-1.5 text-sm font-medium text-teal-text hover:text-teal-text-hover disabled:pointer-events-none disabled:opacity-0"
+      >
+        Limpiar filtros
+      </button>
     </fieldset>
   )
 }

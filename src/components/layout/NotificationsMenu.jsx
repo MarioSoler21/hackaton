@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../../context/AppDataContext'
+import { useAnnouncer } from '../../context/AnnouncerContext'
 import { formatDateTime } from '../../utils/dates'
 import { IconBell } from '../common/Icons'
 
@@ -10,9 +11,19 @@ export function NotificationsMenu({ clienteId }) {
   const buttonRef = useRef(null)
   const panelRef = useRef(null)
   const navigate = useNavigate()
+  const announce = useAnnouncer()
 
   const notificaciones = notificacionesPorCliente(clienteId)
   const noLeidas = notificaciones.filter((n) => !n.leida).length
+  const noLeidasRef = useRef(noLeidas)
+
+  useEffect(() => {
+    if (noLeidas > noLeidasRef.current) {
+      const nuevas = noLeidas - noLeidasRef.current
+      announce(nuevas === 1 ? 'Nueva notificación recibida.' : `${nuevas} notificaciones nuevas recibidas.`)
+    }
+    noLeidasRef.current = noLeidas
+  }, [noLeidas, announce])
 
   useEffect(() => {
     if (!abierto) return
@@ -42,7 +53,7 @@ export function NotificationsMenu({ clienteId }) {
         type="button"
         onClick={() => setAbierto((v) => !v)}
         aria-expanded={abierto}
-        aria-haspopup="true"
+        aria-controls="notificaciones-panel"
         aria-label={`Notificaciones${noLeidas > 0 ? `, ${noLeidas} sin leer` : ''}`}
         className="relative flex h-10 w-10 items-center justify-center rounded-full text-white/90 hover:bg-white/10"
       >
@@ -60,12 +71,15 @@ export function NotificationsMenu({ clienteId }) {
       {abierto && (
         <div
           ref={panelRef}
+          id="notificaciones-panel"
           role="region"
-          aria-label="Notificaciones"
+          aria-labelledby="notificaciones-panel-heading"
           className="absolute right-0 z-40 mt-2 w-80 max-w-[90vw] rounded-xl bg-white p-2 text-slate-900 shadow-xl ring-1 ring-slate-200"
         >
           <div className="flex items-center justify-between px-2 py-1.5">
-            <h2 className="text-sm font-semibold text-navy-950">Notificaciones</h2>
+            <h2 id="notificaciones-panel-heading" className="text-sm font-semibold text-navy-950">
+              Notificaciones
+            </h2>
             {noLeidas > 0 && (
               <button
                 type="button"

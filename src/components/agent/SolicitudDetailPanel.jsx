@@ -6,7 +6,7 @@ import { IconFile, IconX } from '../common/Icons'
 
 export function SolicitudDetailPanel({ solicitud, autorActual, onClose, onClasificar, onCambiarEstado, onAgregarNota }) {
   const dialogRef = useRef(null)
-  const primerCampoRef = useRef(null)
+  const headingRef = useRef(null)
 
   const [prioridad, setPrioridad] = useState(solicitud.prioridad)
   const [complejidad, setComplejidad] = useState(solicitud.complejidad || '')
@@ -19,15 +19,11 @@ export function SolicitudDetailPanel({ solicitud, autorActual, onClose, onClasif
   useEffect(() => {
     const dialog = dialogRef.current
     if (dialog && !dialog.open) dialog.showModal()
-    primerCampoRef.current?.focus()
-
-    function onCancel(e) {
-      e.preventDefault()
-      onClose()
-    }
-    dialog?.addEventListener('cancel', onCancel)
-    return () => dialog?.removeEventListener('cancel', onCancel)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    headingRef.current?.focus()
+    // Escape triggers the dialog's native "cancel" then "close" events; the
+    // native close (wired to onClose below) already unmounts this panel and
+    // returns focus once the browser has actually closed the dialog — a
+    // custom cancel handler here would race React's unmount and drop focus.
   }, [])
 
   function handleClasificar(e) {
@@ -61,7 +57,12 @@ export function SolicitudDetailPanel({ solicitud, autorActual, onClose, onClasif
       <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
         <div>
           <p className="font-mono text-xs font-semibold text-slate-500">{solicitud.ticket}</p>
-          <h2 id="detalle-modal-heading" className="mt-0.5 text-lg font-bold text-navy-950">
+          <h2
+            id="detalle-modal-heading"
+            ref={headingRef}
+            tabIndex={-1}
+            className="mt-0.5 text-lg font-bold text-navy-950 outline-none"
+          >
             {solicitud.categoria}
           </h2>
           <p className="mt-1 text-sm text-slate-600">
@@ -106,7 +107,6 @@ export function SolicitudDetailPanel({ solicitud, autorActual, onClose, onClasif
                 Prioridad
               </label>
               <select
-                ref={primerCampoRef}
                 id="prioridad"
                 value={prioridad}
                 onChange={(e) => setPrioridad(e.target.value)}

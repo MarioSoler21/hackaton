@@ -3,7 +3,7 @@ import { PageHeading } from '../components/common/PageHeading'
 
 export function NotFound() {
   return (
-    <div>
+    <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">
       <PageHeading title="Página no encontrada" />
       <p className="text-slate-600">
         La página que buscas no existe.{' '}
@@ -12,6 +12,6 @@ export function NotFound() {
         </Link>
         .
       </p>
-    </div>
+    </main>
   )
 }

@@ -1,6 +1,7 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useAppData } from '../context/AppDataContext'
+import { useAnnouncer } from '../context/AnnouncerContext'
 import { PageHeading } from '../components/common/PageHeading'
 import { FiltersBar } from '../components/agent/FiltersBar'
 import { SolicitudesTable } from '../components/agent/SolicitudesTable'
@@ -18,6 +19,7 @@ export function AgentDashboard() {
   const { user } = useAuth()
   const { solicitudes, solicitudPorId, clasificarSolicitud, cambiarEstado, agregarNotaInterna, reiniciarDatosDemo } =
     useAppData()
+  const announce = useAnnouncer()
 
   const [tabActivo, setTabActivo] = useState('solicitudes')
   const [filtros, setFiltros] = useState({ busqueda: '', estado: 'todos', categoria: 'todos', prioridad: 'todos' })
@@ -41,6 +43,18 @@ export function AgentDashboard() {
   }, [solicitudes, filtros])
 
   const atrasadasCount = useMemo(() => solicitudes.filter((s) => isOverdue(s)).length, [solicitudes])
+  const atrasadasRef = useRef(atrasadasCount)
+
+  useEffect(() => {
+    if (atrasadasCount !== atrasadasRef.current) {
+      announce(
+        atrasadasCount > 0
+          ? `${atrasadasCount} solicitud${atrasadasCount === 1 ? '' : 'es'} atrasada${atrasadasCount === 1 ? '' : 's'} respecto a su fecha estimada de resolución.`
+          : 'No hay solicitudes atrasadas.',
+      )
+      atrasadasRef.current = atrasadasCount
+    }
+  }, [atrasadasCount, announce])
 
   function abrirDetalle(id) {
     triggerRef.current = document.activeElement
@@ -132,6 +146,7 @@ export function AgentDashboard() {
       <div
         id="panel-indicadores"
         role="tabpanel"
+        tabIndex={0}
         aria-labelledby="tab-indicadores"
         hidden={tabActivo !== 'indicadores'}
       >

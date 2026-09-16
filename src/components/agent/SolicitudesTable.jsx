@@ -49,7 +49,12 @@ export function SolicitudesTable({ solicitudes, onVerDetalle }) {
   }
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+    <div
+      role="region"
+      aria-label="Listado de solicitudes"
+      tabIndex={0}
+      className="overflow-x-auto rounded-xl border border-slate-200 bg-white"
+    >
       <table className="w-full min-w-[860px] border-collapse text-sm">
         <caption className="sr-only">
           Listado de solicitudes y reclamos de clientes, con su estado, prioridad y fecha estimada de resolución.
@@ -79,6 +84,13 @@ export function SolicitudesTable({ solicitudes, onVerDetalle }) {
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-100">
+          {ordenadas.length === 0 && (
+            <tr>
+              <td colSpan={COLUMNAS.length} className="px-4 py-8 text-center text-sm text-slate-500">
+                No hay solicitudes que coincidan con los filtros seleccionados.
+              </td>
+            </tr>
+          )}
           {ordenadas.map((s) => {
             const atrasada = isOverdue(s)
             const proximaAVencer = !atrasada && isDueSoon(s)
@@ -117,11 +129,6 @@ export function SolicitudesTable({ solicitudes, onVerDetalle }) {
           })}
         </tbody>
       </table>
-      {ordenadas.length === 0 && (
-        <p className="px-4 py-8 text-center text-sm text-slate-500">
-          No hay solicitudes que coincidan con los filtros seleccionados.
-        </p>
-      )}
     </div>
   )
 }

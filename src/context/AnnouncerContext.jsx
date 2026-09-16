@@ -19,7 +19,7 @@ export function AnnouncerProvider({ children }) {
   return (
     <AnnouncerContext.Provider value={announce}>
       {children}
-      <div aria-live="polite" role="status" className="sr-only-focusable" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>
+      <div aria-live="polite" aria-atomic="true" role="status" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>
         {message}
       </div>
     </AnnouncerContext.Provider>

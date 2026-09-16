@@ -202,7 +202,7 @@ export function ClientNewRequest() {
             required
             rows={5}
             aria-invalid={Boolean(errores.descripcion)}
-            aria-describedby={errores.descripcion ? 'descripcion-error' : 'descripcion-ayuda'}
+            aria-describedby={errores.descripcion ? 'descripcion-error descripcion-ayuda' : 'descripcion-ayuda'}
             className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-navy-600 focus:ring-navy-600"
           />
           <p id="descripcion-ayuda" className="mt-1 text-xs text-slate-500">

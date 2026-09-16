@@ -64,16 +64,16 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-full items-center justify-center bg-gradient-to-br from-navy-950 via-navy-900 to-navy-800 px-4 py-10">
+    <main className="flex min-h-full items-center justify-center bg-gradient-to-br from-navy-950 via-navy-900 to-navy-800 px-4 py-10">
       <div className="grid w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl md:grid-cols-2">
         <div className="hidden flex-col justify-between bg-navy-900 p-8 text-white md:flex">
           <div>
             <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-teal-brand text-base font-extrabold text-navy-950">
               BSP
             </span>
-            <h2 className="mt-6 text-2xl font-bold leading-snug">
+            <p className="mt-6 text-2xl font-bold leading-snug">
               Gestiona tus solicitudes y reclamos con total visibilidad.
-            </h2>
+            </p>
             <p className="mt-3 text-sm text-white/70">
               Crea tu caso, recibe un número de ticket al instante y da seguimiento al
               estado de tu solicitud sin necesidad de llamar al banco.
@@ -129,7 +129,13 @@ export function LoginPage() {
                       name="role"
                       value={opt.value}
                       checked={role === opt.value}
-                      onChange={() => setRole(opt.value)}
+                      onChange={() => {
+                        setRole(opt.value)
+                        setErrores((prev) => {
+                          const { email: _omit, ...rest } = prev
+                          return opt.value === 'cliente' ? prev : rest
+                        })
+                      }}
                       className="sr-only"
                     />
                     {opt.label}
@@ -140,13 +146,16 @@ export function LoginPage() {
 
             <div>
               <label htmlFor="nombre" className="block text-sm font-medium text-navy-950">
-                Nombre completo
+                Nombre completo <span aria-hidden="true">*</span>
+                <span className="sr-only"> (obligatorio)</span>
               </label>
               <input
                 id="nombre"
                 name="nombre"
                 type="text"
                 autoComplete="name"
+                required
+                aria-required="true"
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
                 aria-invalid={Boolean(errores.nombre)}
@@ -163,7 +172,8 @@ export function LoginPage() {
             {role === 'cliente' && (
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-navy-950">
-                  Correo electrónico
+                  Correo electrónico <span aria-hidden="true">*</span>
+                  <span className="sr-only"> (obligatorio)</span>
                 </label>
                 <input
                   id="email"
@@ -171,6 +181,8 @@ export function LoginPage() {
                   type="email"
                   inputMode="email"
                   autoComplete="email"
+                  required
+                  aria-required="true"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   aria-invalid={Boolean(errores.email)}
@@ -187,13 +199,16 @@ export function LoginPage() {
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-navy-950">
-                Contraseña
+                Contraseña <span aria-hidden="true">*</span>
+                <span className="sr-only"> (obligatorio)</span>
               </label>
               <input
                 id="password"
                 name="password"
                 type="password"
                 autoComplete="current-password"
+                required
+                aria-required="true"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 aria-invalid={Boolean(errores.password)}
@@ -238,6 +253,6 @@ export function LoginPage() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   )
 }

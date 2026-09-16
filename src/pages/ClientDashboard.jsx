@@ -92,6 +92,8 @@ export function ClientDashboard() {
             Mostrando {filtradas.length} de {todas.length} solicitudes.
           </p>
 
+          <h2 className="sr-only">Listado de solicitudes</h2>
+
           {filtradas.length === 0 ? (
             <p className="rounded-xl border border-slate-200 bg-white p-6 text-center text-slate-600">
               No hay solicitudes que coincidan con tu búsqueda.

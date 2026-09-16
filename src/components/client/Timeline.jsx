@@ -13,7 +13,7 @@ export function Timeline({ solicitud }) {
         const estaHecho = index <= indiceActual
 
         return (
-          <li key={estado} className="relative pb-8 pl-6 last:pb-0">
+          <li key={estado} aria-current={esActual ? 'step' : undefined} className="relative pb-8 pl-6 last:pb-0">
             <span
               aria-hidden="true"
               className={`absolute -left-[11px] top-0 flex h-5 w-5 items-center justify-center rounded-full ${

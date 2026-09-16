@@ -3,7 +3,7 @@ import { IconAlertTriangle, IconCheckCircle, IconClock, IconGears, IconSearchRev
 const ESTADO_CONFIG = {
   Recibido: { icon: IconClock, classes: 'bg-slate-100 text-slate-700 ring-slate-300' },
   'En revisión': { icon: IconSearchReview, classes: 'bg-amber-50 text-amber-800 ring-amber-300' },
-  'En proceso': { icon: IconGears, classes: 'bg-navy-800/10 text-navy-800 ring-navy-700/30' },
+  'En proceso': { icon: IconGears, classes: 'bg-navy-800/20 text-navy-800 ring-navy-700/50' },
   Resuelto: { icon: IconCheckCircle, classes: 'bg-emerald-50 text-emerald-800 ring-emerald-300' },
 }
 
@@ -38,7 +38,7 @@ export function PrioridadBadge({ prioridad }) {
 
 export function ComplejidadBadge({ complejidad }) {
   if (!complejidad) {
-    return <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-500 ring-1 ring-inset ring-slate-300">Sin clasificar</span>
+    return <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-300">Sin clasificar</span>
   }
   return (
     <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-300">

@@ -71,10 +71,13 @@ export function Navbar() {
           <button
             type="button"
             onClick={handleLogout}
+            aria-label="Salir"
             className="flex items-center gap-1.5 rounded-md px-2.5 py-2 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white"
           >
             <IconLogout width={18} height={18} />
-            <span className="hidden sm:inline">Salir</span>
+            <span className="hidden sm:inline" aria-hidden="true">
+              Salir
+            </span>
           </button>
         </div>
       </div>
