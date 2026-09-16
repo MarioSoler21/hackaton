@@ -5,7 +5,7 @@ import { IconLogout, IconUser } from '../common/Icons'
 import { NotificationsMenu } from './NotificationsMenu'
 
 const linkBase =
-  'rounded-md px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white'
+  'whitespace-nowrap rounded-md px-2 py-2 text-xs font-medium text-white/80 hover:bg-white/10 hover:text-white sm:px-3 sm:text-sm'
 const linkActive = 'bg-white/15 text-white'
 
 export function Navbar() {
@@ -22,7 +22,7 @@ export function Navbar() {
   return (
     <header className="bg-navy-900">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-3">
           <span
             aria-hidden="true"
             className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-brand text-sm font-extrabold text-navy-950"
@@ -35,7 +35,7 @@ export function Navbar() {
           </div>
         </div>
 
-        <nav aria-label="Navegación principal" className="flex flex-1 justify-center gap-1">
+        <nav aria-label="Navegación principal" className="flex flex-1 justify-center gap-0.5 overflow-x-auto sm:gap-1">
           {user.role === 'cliente' ? (
             <>
               <NavLink
@@ -62,9 +62,9 @@ export function Navbar() {
           )}
         </nav>
 
-        <div className="flex items-center gap-1.5 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
           {user.role === 'cliente' && <NotificationsMenu clienteId={user.clienteId} />}
-          <span className="hidden items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white sm:flex">
+          <span className="hidden items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white lg:flex">
             <IconUser width={16} height={16} />
             {user.nombre} · {user.role === 'cliente' ? 'Cliente' : 'Agente'}
           </span>
