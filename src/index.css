@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy-950: #071c30;
+  --color-navy-900: #0b2c47;
+  --color-navy-800: #0f3b5f;
+  --color-navy-700: #144a76;
+  --color-navy-600: #1c5c90;
+  --color-navy-500: #2670ab;
+
+  /* Bright brand turquoise: decorative use only (backgrounds behind dark
+     text, icon fills, borders, focus rings) — fails 4.5:1 as small text
+     on light backgrounds. */
+  --color-teal-brand: #1fc6c0;
+  --color-teal-brand-light: #e2faf8;
+
+  /* Darkened, AA-safe turquoise for text/links on light backgrounds
+     (~4.6:1 on white). */
+  --color-teal-text: #0f766e;
+  --color-teal-text-hover: #0b5c56;
+
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #f3f6f9;
+  color: #10243c;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #b9c8d6 transparent;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-teal-brand);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
